@@ -5,256 +5,125 @@
 
 Para generar la clave usamos la opción “genrsa” y especificamos el tamaño de 768 bits.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/input.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/Generar_clave_RSA.png)
 
-## 2. Creamos otro archivo binario del mismo tamaño, que contenga un único bit con valor 1 dentro de los primeros 40 bits y todos los demás con valor 0. Me referiré a este archivo como input1.bin.
+El contenido de la clave generada es el siguiente:
 
-Podemos crear el archivo input1.bin usando el procedimiento anterior , pero es más sencillo hacer una copia de input.bin y editar el fichero.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/clave_RSA_ejer1.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/input1.png)
+## 2. “Extraed” la clave privada contenida en el archivo nombreRSAkey.pem a otro archivo que tenga por nombre nombreRSApriv.pem. Este archivo deberá estar protegido por contraseña cifrándolo con AES-128. Mostrad sus valores.
 
-## 3. Cifrad input.bin con DES en modos ECB , CBC y OFB usando como claves una débil y otra semidébil, con vector de inicialización a vuestra elección, y explicad los diferentes resultados.
+Para extraer la clave privada del archivo anterior usamos la opción “rsa”, especificamos el tipo de cifrado que se le va a realizar y la contraseña que contendrá el archivo de salida.
 
-DES es un algoritmo de cifrado por bloques, toma un texto plano de una longitud fija y lo transforma en otro texto cifrado de la misma longitud.
-Este tipo de cifrado utiliza bloques de 64 bits.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/extraer_key.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer3.png)
+Para poder ver su contenido se nos pide que introduzcamos la contraseña que anteriormente hemos asignado.
 
-Resultados:
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/clave_RSA_privada_ejer2.png)
 
-* ECB
+Una vez introducida podemos ver su contenido.
 
-Cifrado con clave débil:
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/clave_RSA_ejer2.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer3_ECB_debil.png)
+## 3. Extraed en nombreRSApub.pem la clave pública contenida en el archivo nombreRSAkey.pem . Evidentemente nombreRSApub.pem no debe estar cifrado ni protegido. Mostrad sus valores.
 
-Cifrado con clave semidébil:
+Para extraer la clave pública a partir de la clave generada en el ejercicio 1, usamos la opción “rsa -pubout”.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer3_ECB_semidebil.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/obtener_key_pub_ejer3.png)
 
-Como se puede observar, ambos cifrados hacen uso de un mismo patrón, al ser un cifrado por bloques, se aplica la misma clave a cada uno de ellos y como todos los bloques son iguales, el resultado es el mismo. Por tanto si utiliza bloques de 64 bits, tendremos 16 bloques que repiten el mismo patrón de cifrado, lo que hace un total de 1024 bits.
+Estos son los valores de las claves pública/privada extraídas.
 
-* CBC
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/mismo_modulo_priv_pub_ejer3.png)
 
-Cifrado con clave débil:
+## 4-5. Reutilizaremos el archivo binario input.bin de 1024 bits, todos ellos con valor 0, de la práctica anterior. Intentad cifrar input.bin con vuestras claves pública. Explicad el resultado.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer3_CBC_debil.png)
+En este caso para cifrar input.bin con nuestra clave pública obtenida, usamos “rsautl -pubin -encrypt”, pero obtenemos el siguiente error:
 
-Cifrado con clave semidébil:
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comando_ejer4-5.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer3_CBC_semidebil.png)
+El error que nos devuelve es debido a que el tamaño de la clave es menor al tamaño del archivo el cual se intenta cifrar.
 
-Con clave débil se repite el mismo patrón, esto es debido a que al realizar la operación XOR al bloque con un vector de inicialización a 0, obtenemos el propio vector. A la salida de este bloque se le realiza la suma XOR con el siguiente bloque en texto plano y hace uso del vector de inicialización. Al cifrar dos veces con la misma clave obtenemos el mismo bloque.
-Con la clave semidébil no ocurre esta repetición, esto es debido a que las claves débiles vienen dadas por parejas, osea que una pareja cifra y la siguiente descifra.
+## 6. Diseñad un cifrado híbrido, con RSA como criptosistema asimétrico. El modo de proceder sería el siguiente:
 
-* OFB
+* El emisor debe seleccionar un sistema simétrico con su correspondiente modo de operación.
 
-Cifrado con clave débil:
+He utilizado aes-128-cbc.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer3_OFB_debil.png)
+* El emisor generará un archivo de texto, llamado por ejemplo sessionkey con dos líneas. La primera línea contendrá una cadena aleatoria hexadecimal cuya longitud sea la requerida por la clave. OpenSSL permite generar cadenas aleatorias con el comando openssl rand . La segunda línea contendrá la información del criptosistema simétrico seleccionado. Por ejemplo, si hemos decidido emplear el algoritmo Blow sh en modo ECB, la segunda línea deberá contener -bf-ecb.
 
-Cifrado con clave semidébil:
+Para generar la cadena aleatoria hexadecimal, usamos la opción “rand -hex” y especificamos 	el tamaño.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer3_OFB_semidebil.png)
+* El archivo sessionkey se cifrará con la clave pública del receptor.
 
-De nuevo, en la captura de OFB con clave débil, comprobamos que se vuelven a repetir los patrones, en este caso cada bloque de 64 bits se repite una vez si una vez no, es decir, el primer bloque se repite en el tercero, en el quinto y así sucesivamente. Por otro lado el segundo bloque se repite en cada posición par da lugar al texto descifrado. Esto se debe a que cifrar dos veces con la misma clave equivale a descifrar, por tanto siempre se está cifrando y descifrando con el mismo valor. También por haber usado un vector de inicialización a 0, hace que siempre se utilice la misma suma XOR.
-En cambio con la clave semi-débil, no se produce esta repetición de patrones debido a que no ciframos con cada misma pareja clave y como se cifra mediante el bloque anterior hace que sean distintos.
+Usamos la opción “rsautl -pubin -encrypt” para cifrar el archivo creado anteriormente con la 	clave pública obtenida en el ejercicio 3.
 
-## 4. Cifrad input.bin e input1.bin con DES en modo ECB y clave a elegir, pero no débil ni semidébil. Explicad la forma de los resultados obtenidos.
+* El mensaje se cifrará utilizando el criptosistema simétrico, la clave se generará a partir del archivo anterior mediante la opción -pass file:sessionkey.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer4.png)
+El mensaje lo cifraremos con el cifrado  aes-128-cbc que es el especificado en la segunda 	línea de sessionkey.txt.
 
-* input
+En la siguiente captura se muestran los tres últimos comandos realizados:
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer4_DES_ECB_input.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer6.png)
 
-* input1
+## 7. Utilizando el criptosistema híbrido diseñado, cada uno debe cifrar el archivo input.bin con su clave pública para, a continuación, descifrarlo con la clave privada. comparad el resultado con el archivo original.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer4_DES_ECB_input1.png)
+Primero desciframos el sessionkey cifrado con la clave pública, con la clave privada del receptor.
+Introducimos la contraseña anteriormente asignada.
 
-Al igual que en los ejercicios anteriores vemos que se repiten los mismos patrones en cada bloque, debido a que todos los bytes son 0 y se le aplica a todos los bloques el mismo cifrado. En el caso de input1 como en la primera posición tenemos un 1 el primer bloque cambia con respecto a los demás.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comando_ejer7.png)
 
-## 5. Cifrad input.bin e input1.bin con DES en modo CBC, clave y vector de inicialización a elegir. Comparad con los resultados obtenidos en el apartado anterior.
+De esta forma ya tenemos el sessionkey descifrado y el receptor podría ver su contenido y en especial el tipo de cifrado que se ha utilizado.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer5_DES_CBC_input.png)
+Y segundo, desciframos el mensaje que se encuentra cifrado con el método de cifrado del sessionkey, con dicho cifrado.
 
--input
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comando02_ejer7.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/captura_ejer5.png)
+Por último, comprobamos que el contenido de input_descifrado.bin es el mismo que el original.
 
--input1
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/input_descifrado_ejer7.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer5_DES_CBC_input1.png)
+## 8. Generad un archivo stdECparam.pem que contenga los parámetros públicos de una de las curvas elípticas contenidas en las transparencias de teoría. Si no lográis localizarlas haced el resto de la práctica con una curva cualquiera a vuestra elección de las disponibles en OpenSSL . Mostrad los valores.
 
-Al utilizar una división en bloques, la salida de cada bloque es sumada con XOR a la entrada del siguiente bloque, por tanto cada bloque cifrado es distinto al anterior y no podemos detectar ninguna repetición de un mismo patrón en ninguno de los casos.
+Para generar el archivo usamos la opción “ecparam -name” y especificamos el nombre de la curva elíptica, en mi caso he elegido *secp192k1*.
 
-## 6. Repetid los puntos 4 a 5 con AES-128 y AES-256.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer8.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer6.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/par%C3%A1metros_ejer8.png)
 
--ECB 128 input
+En el fichero de salida se muestran los parámetros extraídos de la curva elíptica.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_ECB_128_input.png)
+## 9. Generad cada uno de vosotros una clave para los parámetros anteriores. La clave se almacenará en nombreECkey.pem y no es necesario protegerla por contraseña.
 
--ECB 256 input
+Con “ecparam -genkey” generamos la clave a partir de los parámetros de la curva elíptica.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_ECB_256_input.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer9.png)
 
--ECB 128 input1
+En el fichero de salida podemos observar la clave privada y pública que contiene y el tipo de curva elíptica seleccionada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_ECB_128_input1.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_ejer9.png)
 
--ECB 256 input1
+## 10. “Extraed” la clave privada contenida en el archivo nombreECkey.pem a otro archivo que tenga por nombre nombreECpriv.pem . Este archivo deberá estar protegido por contraseña cifrándolo con 3DES . Mostrad sus valores.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_ECB_256_input1.png)
+Vamos a extraer la clave privada contenida en el archivo generado en el ejercicio anterior, cifrándolo con 3DES, para ello usamos la opción “ec -des3” e insertamos la contraseña.
 
-Al igual que en los casos anteriores, con el modo ECB encontramos repeticiones de bloques, en este caso son de 128 bits dando igual que la clave sea fuerte. En input se repite la misma secuencia en los 8 bloques debido a que el contenido es el mismo, en el caso de input1 se produce el cambio por el 1 en la primera posición.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer10.png)
 
--CBC 128 input
+En la siguiente imagen podemos observar que ambos archivos tienen la misma clave privada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_CBC_128_input.png)
+A la izquierda tenemos la clave generada por los parámetros de la curva y a la derecha la clave privada generada en este ejercicio.
 
--CBC 256 input
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_clavePriv_ejer10.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_CBC_256_input.png)
+## 11. Extraed en nombreECpub.pem la clave pública contenida en el archivo nombreECkey.pem. Como antes nombreECpub.pem no debe estar cifrado ni protegido. Mostrad sus valores.
 
--CBC 128 input1
+Por último para generar la clave pública a partir de la clave generada desde los parámetros, usamos la opción “ec -pubout” e indicamos el fichero de salida en el cual se almacenará la clave pública.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_CBC_128_input1.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer11.png)
 
--CBC 256 input1
+Los valores obtenidos en el fichero de clave pública son los siguientes:
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer6_AES_CBC_256_input1.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_clavePub_ejer11.png)
 
-Con CBC al utilizar una clave fuerte no hay forma de encontrar una sucesión que se repita en el texto cifrado. La diferencia entre AES 128 y AES 256 es el tamaño de la clave, que puede ser de 128 bits o 256 bits.
-Con el cifrado DES en modo CBC, si teníamos una clave débil, podíamos observar las repeticiones al igual que en el modo ECB, este problema se soluciona con AES ya que su tamaño de bloque es de 128 bits. (Aunque en el caso de la imagen he utilizado una clave fuerte, he probado con una débil y no se puede encontrar ninguna sucesión).
+Si comparamos la clave pública con la del fichero de clave por parámetros, observamos que es la misma.
 
-## 7. Cifrad input.bin con AES-192 en modo OFB , clave y vector de inicialización a elegir. Supongamos que la salida es output.bin.
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer7.png)
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer7_output.png)
-
-## 8. Descifra output.bin utilizando la misma clave y vector de inicialización que en 7.
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer8.png)
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer7_output_descifrado.png)
-
-## 9. Vuelve a cifrar output.bin con AES-192 en modo OFB , clave y vector de inicialización del punto 7. Compara el resultado obtenido con el punto 8, explicando el resultado.
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer9.png)
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/ejer9_output2.png)
-
-Obtenemos la misma salida que descifrando, esto es debido a que si ciframos dos veces con la misma clave y vector de inicialización conseguimos lo mismo que descifrando.
-
-## 10. Presentad la descripción de otro cifrado simétrico que aparezca en vuestra implementación de OpenSSL.
-
-*Cifrado en Base64:*
-
--¿Qué es Base64?
-
-Es un algoritmo que cifra los datos basándose en un diccionario de 64 caracteres.
-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
-
--¿Cómo funciona el cifrado en Base64?
-
-Supongamos que tenemos el siguiente texto a cifrar: Buen_día
-
-Cada carácter que compone el texto representa un byte de información, es decir 8 bits, cada bit puede tomar valores 0 o 1.
-Para cifrar en Base64 tomamos los 3 primeros caracteres del texto y obtenemos su valor en binario.
-
-B	01000010
-
-u 01110101         
-
-e 01100101
-
-Trás obtener los 24 bits de información, pasamos a dividir en partes de 6 bits, ya que con 6 bits podemos obtener valores entre 0 y 63, y con ese valor, obtenemos un carácter del diccionario base.
-
-Q 010000 	      
-
-n 100111 	        
-
-V 010101         
-
-l 100101
-
-Continuamos con los siguientes caracteres.
-
-n 01101110        			
-
-_	01011111            
-
-d 01100100
-
-Volvemos a cifrar en Base64.
-
-b 011011 	       
-
-l 100101 	        
-
-9 111101        
-
-k 100100
-
-Y por último, a los dos caracteres que faltan realizamos el mismo procedimiento, como faltaría un tercer carácter, éste último lo completamos con 0s.
-
-í	11101101         		
-
-a	01100001
-
-Para finalizar, ciframos en Base64 los últimos caracteres.
-
-7	111011		    
-
-W 010110	    
-
-E 000100
-
-El resultado final es el siguiente:
-
-Buen_día → QnVlbl9k7WE
-
-
--¿Cómo funciona el cifrado en Base64?
-
-Para el descifrado tenemos que realizar los pasos anteriores pero hacia atrás. Es decir,
-componemos bloques de 24 bits, los dividimos entre 8 bits y por último calculamos su 	correspondiente carácter en ASCII.
-
-## 11. Repetid los puntos 3 a 5 con el cifrado presentado en el punto 10 (el 3 si el cifrado elegido tuviese claves débiles o semidébiles).
-
-*Punto 3, Base64.*
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer11.png)
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/captura_ejer11_01.png)
-
-Tanto con clave débil como semidébil se obtiene la misma salida. Esta salida da como resultado A debido a que en Base64, 000000 corresponde a al carácter A del diccionario. El punto aparece en cada bloque de 64 bits.
-
-*Puntos 4 y 5, Base64 input.*
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer11_02.png)
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/captura_ejer11_02.png)
-
-Como podemos observar, el nivel de seguridad de la clave es indiferente en este tipo de cifrado.
-
-*Puntos 4 y 5, Base64 input1.*
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/comandos_ejer11_03.png)
-
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-1/Capturas/captura_ejer11_03.png)
-
-En el caso de input1, como tenemos en la primera posición el bit a 1, es lo único que cambia en la salida.
-
-Aparece el carácter E porque:
-
-1º. Miramos en el diccionario Base64 la posición del carácter E, sería 4.
-
-2º. La posición 4 en binario es: 00000100.
-
-3º. En Base64, se cogen los 6 primeros bits: 000001.
-
-4º. 000001 corresponde a 1.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_clavePub2_ejer11.png)
