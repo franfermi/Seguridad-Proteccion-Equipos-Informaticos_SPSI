@@ -153,7 +153,7 @@ La concatenación la firma A con su clave DSA privada.
 
 Y la cifra con su clave derivada generada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-6.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-06.png)
 
 Dicha concatenación firmada y cifrada se la pasa a B.
 
