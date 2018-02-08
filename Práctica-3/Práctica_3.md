@@ -123,37 +123,37 @@ B → a partir de stdECparam obtiene FernandezECpriv.pem  y FernandezECpub.pem.
 
 El usuario B como tiene la clave pública de A, puede generar la derivada con la pública de A y su clave privada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-03.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-07.png)
 
 Realizamos la concatenación con las claves públicas de A y B, en B.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-04.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-08.png)
 
 Una vez tenemos la concatenación, la firmamos con la clave DSA privada de B y ciframos la concatenación firmada con la clave derivada generada de B.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-05.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-09.png)
 
 B → manda a A la concatenación cifrada y firmada, junto con su clave EC pública.
 
 A → a partir de la clave EC pública de B, puede generar la derivada con la pública de B y su clave privada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-06.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-03.png)
 
 A → desciframos la concatenación cifrada y firmada por B, y verificamos la firma con la clave pública de B.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-07.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-10.png)
 
 Como A ya tiene la clave pública de B, puede concatenar ambas claves.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-08.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-04.png)
 
 La concatenación la firma A con su clave DSA privada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-09.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-05.png)
 
 Y la cifra con su clave derivada generada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-10.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-6.png)
 
 Dicha concatenación firmada y cifrada se la pasa a B.
 
