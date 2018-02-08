@@ -1,129 +1,164 @@
 # Seguridad y Protección de Sistemas Informáticos
-# Práctica 2: Criptosistemas Asimétricos
+# Práctica 3: Protocolos Criptográficos
 
-## 1. Generad, cada uno de vosotros, una clave RSA (que contiene el par de claves) de 768 bits. Para referirnos a ella supondré que se llama nombreRSAkey.pem. Esta clave no es necesario que esté protegida por contraseña.
+## 1. Generad un archivo sharedDSA.pem que contenga los parámetros. Mostrad los valores.
 
-Para generar la clave usamos la opción “genrsa” y especificamos el tamaño de 768 bits.
+Para generar que contenga los parámetros usamos la opción “dsaparam”, en mi caso he elegido un tamaño de 2048 bits.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/Generar_clave_RSA.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comando_ejer1.png)
 
-El contenido de la clave generada es el siguiente:
+Los valores del fichero generado son los siguientes:
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/clave_RSA_ejer1.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer1.png)
 
-## 2. “Extraed” la clave privada contenida en el archivo nombreRSAkey.pem a otro archivo que tenga por nombre nombreRSApriv.pem. Este archivo deberá estar protegido por contraseña cifrándolo con AES-128. Mostrad sus valores.
+En la parte derecha de la captura se muestran los parámetros generados.
 
-Para extraer la clave privada del archivo anterior usamos la opción “rsa”, especificamos el tipo de cifrado que se le va a realizar y la contraseña que contendrá el archivo de salida.
+## 2. Generad dos parejas de claves para los parámetros anteriores. La claves se almacenarán en los archivos nombreDSAkey.pem y apellidoDSAkey.pem . No es necesario protegerlas por contraseña.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/extraer_key.png)
+En la generación del ar de claves usamos la opción “gendsa”, generamos dos pares de claves, un par por cada archivo.
 
-Para poder ver su contenido se nos pide que introduzcamos la contraseña que anteriormente hemos asignado.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comando_ejer2.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/clave_RSA_privada_ejer2.png)
+El contenido de las claves generadas de ambos ficheros es el siguiente:
 
-Una vez introducida podemos ver su contenido.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer2.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/clave_RSA_ejer2.png)
+Podemos observar en detalles que usamos el algoritmo DSA y que es de tamaño 2048 que es el tamaño de la clave que hemos generado anteriormente.
 
-## 3. Extraed en nombreRSApub.pem la clave pública contenida en el archivo nombreRSAkey.pem . Evidentemente nombreRSApub.pem no debe estar cifrado ni protegido. Mostrad sus valores.
+## 3. “Extraed” la clave privada contenida en el archivo nombreDSAkey.pem a otro archivo que tenga por nombre nombreDSApriv.pem . Este archivo deberá estar protegido por contraseña. Mostrad sus valores. Lo mismo para el archivo apellidoDSAkey.pem .
 
-Para extraer la clave pública a partir de la clave generada en el ejercicio 1, usamos la opción “rsa -pubout”.
+Para extraer la clave privada de los archivos anteriormente obtenidos, utilizamos la opción “dsa -des3”, tanto con un archivo como con el otro. Como clave de ambos archivos he utilizado la clave por defecto de la práctica pasada “0123456789”.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/obtener_key_pub_ejer3.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer3.png)
 
-Estos son los valores de las claves pública/privada extraídas.
+Los resultados obtenidos son los siguientes:
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/mismo_modulo_priv_pub_ejer3.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer3.png)
 
-## 4-5. Reutilizaremos el archivo binario input.bin de 1024 bits, todos ellos con valor 0, de la práctica anterior. Intentad cifrar input.bin con vuestras claves pública. Explicad el resultado.
+Si los comparamos con los obtenidos en el ejercicio anterior, observamos que poseen la misma clave privada pero en este caso se encuentran protegidos por contraseña.
 
-En este caso para cifrar input.bin con nuestra clave pública obtenida, usamos “rsautl -pubin -encrypt”, pero obtenemos el siguiente error:
+## 4. Extraed en nombreDSApub.pem la clave pública contenida en el archivo nombreDSAkey.pem . De nuevo nombreDSApub.pem no debe estar cifrado ni protegido. Mostrad sus valores. Lo mismo para el archivo apellidoDSAkey.pem.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comando_ejer4-5.png)
+En la extracción de la clave pública, usamos la opción “dsa -pubin” y en el mismo comando si queremos mostrar los resultados de la clave, usamos “-text -noout”. En mi caso me ha salido un poco extenso debido al tamaño de la clave generada, al ser de 2048 bits.
 
-El error que nos devuelve es debido a que el tamaño de la clave es menor al tamaño del archivo el cual se intenta cifrar.
+Fichero 1:
 
-## 6. Diseñad un cifrado híbrido, con RSA como criptosistema asimétrico. El modo de proceder sería el siguiente:
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer4_com1-1.png)
 
-* El emisor debe seleccionar un sistema simétrico con su correspondiente modo de operación.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer4_com1-2.png)
 
-He utilizado aes-128-cbc.
+Fichero 2:
 
-* El emisor generará un archivo de texto, llamado por ejemplo sessionkey con dos líneas. La primera línea contendrá una cadena aleatoria hexadecimal cuya longitud sea la requerida por la clave. OpenSSL permite generar cadenas aleatorias con el comando openssl rand . La segunda línea contendrá la información del criptosistema simétrico seleccionado. Por ejemplo, si hemos decidido emplear el algoritmo Blow sh en modo ECB, la segunda línea deberá contener -bf-ecb.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer4_com2-1.png)
 
-Para generar la cadena aleatoria hexadecimal, usamos la opción “rand -hex” y especificamos 	el tamaño.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer4_com2-2.png)
 
-* El archivo sessionkey se cifrará con la clave pública del receptor.
+## 5. Calculad el valor hash del archivo con la clave pública nombreDSApub.pem usando sha384 con salida hexadecimal con bloques de dos caracteres separados por dos puntos. Mostrad los valores por salida estándar y guardadlo en nombreDSApub.sha384.
 
-Usamos la opción “rsautl -pubin -encrypt” para cifrar el archivo creado anteriormente con la 	clave pública obtenida en el ejercicio 3.
+Para calcular el valor hash del archivo mediante la clave pública obtenida en el apartado anterior, usamos la opción “dgst -sha384” y para mostrar su salida de forma hexadecimal en bloques de dos caracteres separados por dos puntos, utilizamos “-hex -c”.
 
-* El mensaje se cifrará utilizando el criptosistema simétrico, la clave se generará a partir del archivo anterior mediante la opción -pass file:sessionkey.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comando_ejer5.png)
 
-El mensaje lo cifraremos con el cifrado  aes-128-cbc que es el especificado en la segunda 	línea de sessionkey.txt.
+Como último argumento en el comando, hay que añadir el archivo el cuál contiene la clave pública.
 
-En la siguiente captura se muestran los tres últimos comandos realizados:
+El valor hash obtenido es el siguiente:
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer6.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer5.png)
 
-## 7. Utilizando el criptosistema híbrido diseñado, cada uno debe cifrar el archivo input.bin con su clave pública para, a continuación, descifrarlo con la clave privada. comparad el resultado con el archivo original.
+## 6. Calculad el valor hash del archivo con la clave pública apellidoDSApub.pem usando una función hash de 160 bits con salida binaria. Guardad el hash en apellidoDSApub.[algoritmo] y mostrad su contenido.
 
-Primero desciframos el sessionkey cifrado con la clave pública, con la clave privada del receptor.
-Introducimos la contraseña anteriormente asignada.
+Para calcular el valor hash, a diferencia con el ejercicio anterior, tenemos que hacer uso de una función hash de 160 bits, para ello usamos “dgst -ripemd160” y como la salida debe de ser binaria pues añadimos el parámetro “-binary”.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comando_ejer7.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comando_ejer6.png)
 
-De esta forma ya tenemos el sessionkey descifrado y el receptor podría ver su contenido y en especial el tipo de cifrado que se ha utilizado.
+El valor hash obtenido es el siguiente:
 
-Y segundo, desciframos el mensaje que se encuentra cifrado con el método de cifrado del sessionkey, con dicho cifrado.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/valores_ejer6.png)
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comando02_ejer7.png)
+## 7. Generad el valor HMAC del archivo sharedDSA.pem con clave ’12345’ mostrándolo por pantalla.
 
-Por último, comprobamos que el contenido de input_descifrado.bin es el mismo que el original.
+Para generar el valor HMAC del archivo sharedDSA, usamos la opción “-hmac” y le asignamos la contraseña especificada en la práctica “12345”, por último añadimos el archivo a partir del cual se quiere generar el valor.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/input_descifrado_ejer7.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comando_ejer7.png)
 
-## 8. Generad un archivo stdECparam.pem que contenga los parámetros públicos de una de las curvas elípticas contenidas en las transparencias de teoría. Si no lográis localizarlas haced el resto de la práctica con una curva cualquiera a vuestra elección de las disponibles en OpenSSL . Mostrad los valores.
+## 8. Simulad una ejecución completa del protocolo Estación a Estación. Para ello emplearemos como claves para firma/vericación las generadas en esta práctica, y para el protocolo DH emplearemos las claves asociadas a curvas elípticas de la práctica anterior junto con las de otro usuario simulado que deberéis generar nuevamente.
 
-Para generar el archivo usamos la opción “ecparam -name” y especificamos el nombre de la curva elíptica, en mi caso he elegido *secp192k1*.
+## Por ejemplo, si mi clave privada esta en javierECpriv.pem y la clave pública del otro usuario está en lobilloECpub.pem , el comando para generar la clave derivada será:
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer8.png)
+	$> openssl pkeyutl -inkey javierECpriv.pem -peerkey lobilloECpub.pem -derive -out
+	key.bin
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/par%C3%A1metros_ejer8.png)
+## El algoritmo simétrico a utilizar en el protocolo estación a estación será AES-128 en modo CFB8.
 
-En el fichero de salida se muestran los parámetros extraídos de la curva elíptica.
+Lo primero que tenemos que hacer es tener todos los archivos necesarios para el ejercicio, para ello tenemos que obtener las claves asociadas a curvas elípticas del otro usuario. Como en la práctica anterior tenemos que hacer:
+Generamos una clave a partir de los parámetros de la curva elíptica.
 
-## 9. Generad cada uno de vosotros una clave para los parámetros anteriores. La clave se almacenará en nombreECkey.pem y no es necesario protegerla por contraseña.
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-01.png)
 
-Con “ecparam -genkey” generamos la clave a partir de los parámetros de la curva elíptica.
+Extraemos la clave pública y privada a partir de la clave generada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer9.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-02.png)
 
-En el fichero de salida podemos observar la clave privada y pública que contiene y el tipo de curva elíptica seleccionada.
+Partimos de los siguientes archivos:
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_ejer9.png)
+A:
 
-## 10. “Extraed” la clave privada contenida en el archivo nombreECkey.pem a otro archivo que tenga por nombre nombreECpriv.pem . Este archivo deberá estar protegido por contraseña cifrándolo con 3DES . Mostrad sus valores.
+-FranciscoDSApriv.pem
 
-Vamos a extraer la clave privada contenida en el archivo generado en el ejercicio anterior, cifrándolo con 3DES, para ello usamos la opción “ec -des3” e insertamos la contraseña.
+-FranciscoDSApub.pem
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer10.png)
+-FernandezDSApub.pem
 
-En la siguiente imagen podemos observar que ambos archivos tienen la misma clave privada.
+B:
 
-A la izquierda tenemos la clave generada por los parámetros de la curva y a la derecha la clave privada generada en este ejercicio.
+-FernandezDSApriv.pem
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_clavePriv_ejer10.png)
+-FernandezDSApub.pem
 
-## 11. Extraed en nombreECpub.pem la clave pública contenida en el archivo nombreECkey.pem. Como antes nombreECpub.pem no debe estar cifrado ni protegido. Mostrad sus valores.
+-FranciscoDSApub.pem
 
-Por último para generar la clave pública a partir de la clave generada desde los parámetros, usamos la opción “ec -pubout” e indicamos el fichero de salida en el cual se almacenará la clave pública.
+A → a partir de stdECparam obtiene FranciscoECpriv.pem y FranciscoECpub.pem, envía FranciscoECpub.pem a B.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/comandos_ejer11.png)
+B → a partir de stdECparam obtiene FernandezECpriv.pem  y FernandezECpub.pem.
 
-Los valores obtenidos en el fichero de clave pública son los siguientes:
+El usuario B como tiene la clave pública de A, puede generar la derivada con la pública de A y su clave privada.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_clavePub_ejer11.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-03.png)
 
-Si comparamos la clave pública con la del fichero de clave por parámetros, observamos que es la misma.
+Realizamos la concatenación con las claves públicas de A y B, en B.
 
-![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-2/Capturas/valores_clavePub2_ejer11.png)
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-04.png)
+
+Una vez tenemos la concatenación, la firmamos con la clave DSA privada de B y ciframos la concatenación firmada con la clave derivada generada de B.
+
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-05.png)
+
+B → manda a A la concatenación cifrada y firmada, junto con su clave EC pública.
+
+A → a partir de la clave EC pública de B, puede generar la derivada con la pública de B y su clave privada.
+
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-06.png)
+
+A → desciframos la concatenación cifrada y firmada por B, y verificamos la firma con la clave pública de B.
+
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-07.png)
+
+Como A ya tiene la clave pública de B, puede concatenar ambas claves.
+
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-08.png)
+
+La concatenación la firma A con su clave DSA privada.
+
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-09.png)
+
+Y la cifra con su clave derivada generada.
+
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-10.png)
+
+Dicha concatenación firmada y cifrada se la pasa a B.
+
+B → obtiene la concatenación cifrada y firmada por parte de A y procede a descifrar y verificar su firma.
+
+Descifra con su clave generada derivada y verifica la firma de A con la clave pública de A que ya la tenía de pasos anteriores.
+
+![curl](https://github.com/franfermi/Seguridad-Proteccion-Equipos-Informaticos_SPSI/blob/master/Pr%C3%A1ctica-3/Capturas/comandos_ejer8-11.png)
